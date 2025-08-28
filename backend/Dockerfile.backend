@@ -1,0 +1,29 @@
+FROM node:24-alpine AS builder
+RUN corepack enable
+WORKDIR /app
+
+# Copy everything and install
+COPY . .
+RUN npm install
+
+# Build packages
+RUN npx turbo run build:docker --filter=@typesafe-stack/api...
+
+FROM node:24-alpine AS runner
+RUN corepack enable
+WORKDIR /app
+
+# Copy built backend with workspace packages
+COPY --from=builder /app/backend ./backend
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+# Set working directory to api
+WORKDIR /app/backend/packages/api
+
+# Production environment
+ENV NODE_ENV=production
+ENV PORT=10000
+EXPOSE 10000
+
+CMD ["npm", "start"]

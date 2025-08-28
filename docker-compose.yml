@@ -1,0 +1,88 @@
+# Docker Compose for local development and testing
+# For production, use the individual Dockerfiles directly
+
+services:
+  # API Gateway Service
+  gateway:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.gateway
+    container_name: typesafe-stack-gateway
+    ports:
+      - "8888:8888"
+    environment:
+      - NODE_ENV=production
+      - GATEWAY_PORT=8888
+      - API_KEY=${GATEWAY_API_KEY:-demo-gateway-key}
+      - API_URL=http://backend:10000
+      - API_KEY_AUTH=${API_KEY_AUTH:-demo-api-key}
+      - LOG_LEVEL=info
+      - OPENAPI_API_KEY=${GATEWAY_DOCS_KEY:-demo-docs-key}
+    networks:
+      - typesafe-stack-network
+    depends_on:
+      - backend
+
+  # Backend API Service (Core-API)
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.backend
+    container_name: typesafe-stack-backend
+    ports:
+      - "10000:10000"
+    environment:
+      - NODE_ENV=production
+      - PORT=10000
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@db:54321/typesafe_stack}
+      - API_VERSION=v1
+      - LOG_LEVEL=info
+      - SKIP_DB_CHECK=true
+      - OPENAPI_API_KEY=${OPENAPI_API_KEY:-demo-api-key}
+    networks:
+      - typesafe-stack-network
+    depends_on:
+      - db
+
+  # Frontend Dashboard Service
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://backend:10000
+    container_name: typesafe-stack-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - API_URL=http://backend:10000
+    networks:
+      - typesafe-stack-network
+    depends_on:
+      - backend
+
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: typesafe-stack-db
+    ports:
+      - "54321:54321"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=typesafe_stack
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/packages/api/create-dbs.sql:/docker-entrypoint-initdb.d/create-dbs.sql
+    command: -p 54321
+    networks:
+      - typesafe-stack-network
+
+networks:
+  typesafe-stack-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

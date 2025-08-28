@@ -1,0 +1,52 @@
+{
+  "name": "@typesafe-stack/gateway",
+  "version": "1.0.0",
+  "description": "API Gateway for TypeSafe Stack services",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "API_KEY_AUTH=demo-api-key tsx --watch src/index.ts",
+    "build": "tsc",
+    "build:docker": "tsc --build",
+    "start": "npx tsx src/index.ts",
+    "check:types": "tsc --noEmit",
+    "lint": "eslint src --ext .ts --max-warnings 0",
+    "check:lint": "npm run lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:properties": "vitest run --grep='property'",
+    "check:all": "npm run check:types && npm run check:lint && npm run test"
+  },
+  "dependencies": {
+    "@typesafe-stack/hono-server": "^1.0.0",
+    "@hono/node-server": "1.19.0",
+    "dotenv": "^17.2.1",
+    "hono": "4.9.4",
+    "neverthrow": "^8.2.0",
+    "ts-pattern": "^5.8.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^24.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "eslint": "^9.33.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-functional": "^9.0.2",
+    "fast-check": "^4.2.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.2",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
+  },
+  "imports": {
+    "#config": "./src/config.ts",
+    "#config/*": "./src/config/*",
+    "#services/*": "./src/services/*",
+    "#auth/*": "./src/auth/*",
+    "#utils/*": "./src/utils/*",
+    "#types/*": "./src/types/*"
+  }
+}

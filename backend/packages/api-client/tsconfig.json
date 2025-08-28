@@ -1,0 +1,14 @@
+{
+  "extends": "../../shared-configs/tsconfig.base.json",
+  "compilerOptions": {
+    // Package-specific settings
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./.tsbuildinfo"
+    // No paths config - use relative imports
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts"],
+  "references": [{ "path": "../api" }]
+}

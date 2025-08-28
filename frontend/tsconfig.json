@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared-types": ["./packages/shared-types/src"],
+      "@shared-types/*": ["./packages/shared-types/src/*"],
+      "@api-client": ["./packages/api-client/src"],
+      "@api-client/*": ["./packages/api-client/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", ".turbo", ".next"]
+}

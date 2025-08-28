@@ -1,0 +1,46 @@
+{
+  "name": "@typesafe-stack/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#components/*": "./components/*",
+    "#hooks/*": "./hooks/*",
+    "#lib/*": "./lib/*",
+    "#app/*": "./app/*",
+    "#utils/*": "./utils/*",
+    "#types/*": "./types/*"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:docker": "next build",
+    "start": "next start",
+    "check:types": "tsc --noEmit",
+    "type-check": "tsc --noEmit",
+    "check:lint": "next lint",
+    "lint": "next lint",
+    "clean": "rm -rf .next .turbo",
+    "check:all": "npm run check:types && npm run check:lint"
+  },
+  "dependencies": {
+    "@typesafe-stack/api-client": "file:../../../backend/packages/api-client",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "next": "^15.4.6",
+    "posthog-js": "^1.260.2",
+    "posthog-node": "^5.7.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "swr": "^2.3.6",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.11",
+    "ts-pattern": "^5.8.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "eslint-config-next": "^15.4.6"
+  }
+}

@@ -1,0 +1,7 @@
+# Generated TypeScript files
+frontend/apps/dashboard/**/*.js
+frontend/apps/dashboard/**/*.jsx
+frontend/apps/dashboard/**/*.d.ts
+frontend/apps/dashboard/**/*.map
+!frontend/apps/dashboard/.next/**
+!frontend/apps/dashboard/next.config.js

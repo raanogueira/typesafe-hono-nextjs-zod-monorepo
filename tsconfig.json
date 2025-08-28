@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./backend/packages/api" },
+    { "path": "./backend/packages/api-client" },
+    { "path": "./backend/packages/db-toolkit" },
+    { "path": "./backend/packages/hono-server" },
+    { "path": "./frontend/apps/web" }
+  ]
+}

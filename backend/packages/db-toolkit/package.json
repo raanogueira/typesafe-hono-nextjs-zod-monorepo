@@ -1,0 +1,32 @@
+{
+  "name": "@typesafe-stack/db-toolkit",
+  "version": "1.0.0",
+  "type": "module",
+  "imports": {
+    "#internal/*": "./dist/*",
+    "#types/*": "./dist/types/*",
+    "#utils/*": "./dist/utils/*",
+    "#scripts/*": "./dist/scripts/*"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:types": "tsc --noEmit",
+    "check:lint": "eslint src --max-warnings 0 --config ../../eslint.config.js",
+    "check:all": "npm run check:types && npm run check:lint && npm run test",
+    "clean": "tsc --build --clean"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
+    "drizzle-orm": "^0.44.4",
+    "postgres": "^3.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  }
+}

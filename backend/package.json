@@ -1,0 +1,23 @@
+{
+  "name": "@typesafe-stack/backend",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev:core": "npm run dev -w @typesafe-stack/api",
+    "build:all": "npm run build --workspaces",
+    "check:types": "npm run check:types --workspaces",
+    "check:lint": "eslint . --ext .js --max-warnings 0",
+    "check:all": "npm run check:types && npm run check:lint && npm run check:all --workspaces",
+    "build:render": "npm install && npm run build -w @typesafe-stack/hono-server && npm run build -w @typesafe-stack/db-toolkit",
+    "start:render": "cd packages/api && NODE_ENV=production SKIP_DB_CHECK=true npx tsx src/server.ts"
+  },
+  "devDependencies": {
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-drizzle": "^0.2.3",
+    "eslint-plugin-import": "^2.32.0"
+  },
+  "dependencies": {
+    "p-limit": "^3.1.0"
+  }
+}

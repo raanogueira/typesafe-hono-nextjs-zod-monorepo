@@ -1,0 +1,30 @@
+{
+  "extends": "../../shared-configs/tsconfig.base.json",
+  "compilerOptions": {
+    // Package-specific settings
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "baseUrl": ".",
+    "lib": ["ES2024", "ESNext", "DOM"],
+    "types": ["node"],
+    "skipLibCheck": false,
+    "paths": {
+      "#internal/*": ["./src/*"],
+      "#services/*": ["./src/services/*"],
+      "#middleware/*": ["./src/middleware/*"],
+      "#types/*": ["./src/types/*"],
+      "#utils/*": ["./src/utils/*"],
+      "#utils/test-helpers": ["./src/utils/test-helpers"],
+      "#config": ["./src/config.ts"],
+      "#config/*": ["./src/config/*"],
+      "#schemas/*": ["./src/schemas/*"],
+      "#auth": ["./src/auth/index.ts"],
+      "#auth/*": ["./src/auth/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "../hono-server" }]
+}

@@ -1,0 +1,5 @@
+GATEWAY_PORT=8888
+API_KEY=demo-gateway-key
+API_URL=http://localhost:10000
+API_KEY_AUTH=demo-api-key
+OPENAPI_API_KEY=demo-docs-key-12345678

@@ -1,0 +1,38 @@
+{
+  "name": "@typesafe-stack/api-client",
+  "version": "0.0.1",
+  "description": "Type-safe client for TypeSafe Stack API - shared interface for all consumers",
+  "type": "module",
+  "imports": {
+    "#types/*": "./src/types/*",
+    "#utils/*": "./src/utils/*"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "build:docker": "tsc --build",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "clean": "tsc --build --clean",
+    "check:all": "npm run check:types && npm run check:lint && npm run test",
+    "check:types": "tsc --noEmit",
+    "check:lint": "eslint src --max-warnings 0"
+  },
+  "dependencies": {
+    "@typesafe-stack/api": "file:../api"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  }
+}

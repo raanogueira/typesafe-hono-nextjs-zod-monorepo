@@ -1,0 +1,81 @@
+# Render Blueprint for TypeSafe Stack
+# This file defines the infrastructure for both backend and frontend services
+
+services:
+  # Backend API Service (Core-API)
+  - type: web
+    name: typesafe-stack-api
+    runtime: docker
+    repo: https://github.com/raanogueira/typesafe-hono-nextjs-zod-monorepo
+    branch: main
+    dockerfilePath: ./backend/Dockerfile.backend
+    dockerContext: . # Build from monorepo root
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_VERSION
+        value: v1
+      - key: LOG_LEVEL
+        value: info
+      - key: DATABASE_URL
+        value: ${DATABASE_URL}
+      - key: OPENAPI_API_KEY
+        value: ${OPENAPI_API_KEY}
+      - key: SKIP_DB_CHECK
+        value: true # Skip DB check in Docker builds
+    healthCheckPath: /live # Backend liveness probe endpoint
+    autoDeploy: true # Deploy on every push to main
+    plan: free # Change to 'starter' or 'standard' for production
+
+  # API Gateway Service
+  - type: web
+    name: typesafe-stack-gateway
+    runtime: docker
+    repo: https://github.com/raanogueira/typesafe-hono-nextjs-zod-monorepo
+    branch: main
+    dockerfilePath: ./backend/Dockerfile.gateway
+    dockerContext: . # Build from monorepo root
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GATEWAY_PORT
+        value: 8888
+      - key: API_KEY
+        value: ${GATEWAY_API_KEY}
+      - key: CORE_API_URL
+        value: https://typesafe-stack-api.onrender.com # Internal service URL
+      - key: CORE_API_KEY
+        value: ${CORE_API_KEY}
+      - key: LOG_LEVEL
+        value: info
+      - key: OPENAPI_API_KEY
+        value: ${GATEWAY_DOCS_KEY}
+    healthCheckPath: /_health # Gateway health endpoint
+    autoDeploy: true # Deploy on every push to main
+    plan: free # Change to 'starter' or 'standard' for production
+
+  # Frontend Dashboard Service  
+  - type: web
+    name: typesafe-stack-web
+    runtime: docker
+    repo: https://github.com/raanogueira/typesafe-hono-nextjs-zod-monorepo
+    branch: main
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: . # Build from monorepo root
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://typesafe-stack-gateway.onrender.com # Point to gateway, not direct API
+      - key: NEXT_PUBLIC_POSTHOG_KEY
+        value: ${NEXT_PUBLIC_POSTHOG_KEY}
+      - key: NEXT_PUBLIC_POSTHOG_HOST
+        value: https://us.i.posthog.com # PostHog US instance
+    healthCheckPath: /api/health # Next.js health endpoint
+    autoDeploy: true # Deploy on every push to main
+    plan: free # Change to 'starter' or 'standard' for production
+
+# Database (using external Supabase)
+# No database needed in Render since we're using Supabase
+
+# Note: CORS is hardcoded to '*' in development, no CORS_ORIGIN needed
+# LOG_LEVEL is set per service above
+# SENTRY_DSN is optional and not currently used

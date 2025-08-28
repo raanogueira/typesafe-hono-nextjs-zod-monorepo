@@ -1,0 +1,52 @@
+{
+  "name": "@typesafe-stack/monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.5.0",
+  "workspaces": [
+    "backend/packages/*",
+    "frontend/packages/*",
+    "frontend/apps/*",
+    "shared/types/*",
+    "shared/utils/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "check:types": "tsc --noEmit",
+    "check:lint": "eslint . --ext .js --max-warnings 0",
+    "check:all": "turbo run check:all",
+    "format": "biome format --write .",
+    "format:check": "biome format --check .",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "dev:gateway": "turbo run dev --filter=@typesafe-stack/gateway",
+    "dev:backend": "turbo run dev --filter=@typesafe-stack/api",
+    "dev:frontend": "turbo run dev --filter=@typesafe-stack/web",
+    "dev:fullstack": "turbo run dev --filter=@typesafe-stack/api --filter=@typesafe-stack/web --filter=@typesafe-stack/gateway",
+    "build:gateway": "turbo run build ---filter=@typesafe-stack/gateway",
+    "build:backend": "turbo run build ---filter=@typesafe-stack/api",
+    "build:frontend": "turbo run build --filter=@typesafe-stack/web",
+    "test:comprehensive": "turbo run check:all build test",
+    "test:docker": "npm run test:docker:backend && npm run test:docker:frontend",
+    "test:docker:backend": "docker build -f backend/Dockerfile.backend -t test-backend .",
+    "test:docker:frontend": "docker build -f frontend/Dockerfile -t test-frontend ."
+  },
+  "dependencies": {
+    "neverthrow": "^8.2.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^24.2.1",
+    "eslint": "^9.33.0",
+    "glob": "^11.0.3",
+    "prettier": "^3.2.5",
+    "turbo": "^2.5.6",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1"
+  }
+}

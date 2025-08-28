@@ -1,0 +1,26 @@
+{
+  "extends": "../../shared-configs/tsconfig.base.json",
+  "compilerOptions": {
+    // Package-specific settings
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "#internal/*": ["./src/*"],
+      "#routes/*": ["./src/routes/*"],
+      "#services/*": ["./src/services/*"],
+      "#repositories/*": ["./src/repositories/*"],
+      "#db/*": ["./src/db/*"],
+      "#types/*": ["./src/types/*"],
+      "#utils/*": ["./src/utils/*"],
+      "#middleware/*": ["./src/middleware/*"],
+      "#scripts/*": ["./src/scripts/*"],
+      "#env": ["./src/env.ts"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["tests", "**/*.test.ts", "**/*.spec.ts", "node_modules", "dist"],
+  "references": [{ "path": "../db-toolkit" }, { "path": "../hono-server" }]
+}
